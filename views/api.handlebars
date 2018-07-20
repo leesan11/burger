@@ -1,0 +1,9 @@
+<div class="display-burger" style="border:2px solid">
+    <h3>Burger Database</h3>
+    {{#each arr}}
+    <li>
+        <span class="burger-name-mysql">{{burger_name}} </span>{{#if devoured}}
+        <span style="color:red">devoured</span>{{/if}}</li>
+    {{/each}}
+
+</div>

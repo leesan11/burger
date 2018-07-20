@@ -1,0 +1,57 @@
+<h1>Type burger:</h1>
+<input class="burger-name">
+<button id="submit">Submit</button>
+<div class="current" style="border:2px solid">
+    <h3>New Burgers</h3>
+
+</div>
+<div class="display-burger" style="border:2px solid">
+    <h3>Burger Database</h3>
+    {{#each arr}}
+    <li>
+        <span class="burger-name-mysql">{{burger_name}} </span>{{#if devoured}}
+        <span style="color:red">devoured</span>{{/if}}</li>
+    {{/each}}
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script>
+    $(".display-burger").load("/api/burgers .display-burger", function (data) {
+
+    })
+
+
+    $("#submit").on("click", function () {
+        //show on ui
+        var devour = $("<button class='devour'>").attr("data", $(".burger-name").val()).text("devour");
+        var newItem = $("<li>");
+        newItem.text($(".burger-name").val()+"  ").appendTo('.current');
+        devour.appendTo(newItem);
+
+        $("<hr>").appendTo(".display-burger");
+
+        $.post("/api/burgers", { burger_name: ($(".burger-name").val()), devoured: false }, function (data) {
+        })
+        $(".display-burger").load("/api/burgers .display-burger", function (data) {
+        })
+        $(".burger-name").val("");
+
+    });
+
+    $(".current").on("click", ".devour", function () {
+
+        $.ajax({
+            url: '/api/burgers/burgerName',
+            type: 'PUT',
+            data: { burger_name: $(this).attr("data"), devoured: true }
+
+        });
+        $(".display-burger").load("/api/burgers .display-burger", function (data) {
+
+        })
+        $(this).parent().remove();
+
+    });
+
+
+</script>
